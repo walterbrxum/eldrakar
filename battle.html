@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eldrakar Battle</title>
+
+<link rel="stylesheet" href="./css/battle.css">
+</head>
+
+<body>
+
+<div class="battle-stage">
+
+<div class="rpg-battle-board">
+
+<div class="battle-terrain-banner">
+
+<span class="terrain-icon">
+🌋
+</span>
+
+<div>
+<strong id="terrainName">
+Vulcão
+</strong>
+
+<small id="terrainDescription">
+Calor extremo causa dano por turno.
+</small>
+
+<small id="terrainTurnSubtitle" class="terrain-turn-subtitle">
+Turno 1 no terreno Vulcão.
+</small>
+</div>
+
+</div>
+
+<div class="battle-top-info">
+
+<div>
+⚔️ Turno:
+<strong id="battleTurn">
+1
+</strong>
+</div>
+
+<div>
+🎯 Cenário:
+<strong id="battleVisual">
+vulcao_r3_c3
+</strong>
+</div>
+
+</div>
+
+<div class="terrain-event-message" data-terrain-event hidden></div>
+
+<div class="battle-area">
+
+<!-- PLAYER -->
+
+<div class="combatant-card">
+
+<div class="combatant-title">
+🧙 WS
+</div>
+
+<div class="combatant-portrait gold-frame">
+
+<img
+id="playerAvatar"
+src="./assets/monster/cavaleiro_r1_c1.png"
+>
+
+</div>
+
+<div class="hp-text">
+HP 200 / 200
+</div>
+
+<div class="rpg-hp-bar">
+<div style="width:100%"></div>
+</div>
+
+</div>
+
+<!-- CENTRO -->
+
+<div class="battle-center">
+
+<div class="battle-dice">
+🎲
+</div>
+
+<div class="dice-results">
+
+<span>
+Jogador:
+<strong>17</strong>
+</span>
+
+<span>
+Monstro:
+<strong>12</strong>
+</span>
+
+</div>
+
+<div class="battle-turn-message">
+VOCÊ COMEÇA
+</div>
+
+</div>
+
+<!-- MONSTRO -->
+
+<div class="combatant-card">
+
+<div
+class="combatant-title"
+id="monsterName">
+
+Espectral Demônio 2993
+
+</div>
+
+<div class="combatant-portrait red-frame">
+
+<img
+id="monsterAvatar"
+src="./assets/monster/demon_r3_c3.png"
+>
+
+</div>
+
+<div class="hp-text">
+HP 296 / 296
+</div>
+
+<div class="rpg-hp-bar">
+<div style="width:100%"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module" src="./js/game-brain/battle-engine.js"></script>
+
+</body>
+</html>

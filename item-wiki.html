@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Wiki de Itens</title>
+
+<style>
+body{
+    background:#090909;
+    color:#eee;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+
+h1{
+    color:#facc15;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:10px;
+}
+
+.item{
+    border:2px solid #333;
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+    min-height:150px;
+    overflow:hidden;
+}
+
+.item img{
+    width:48px;
+    height:48px;
+    image-rendering:pixelated;
+}
+
+.item strong{
+    display:block;
+    margin-top:5px;
+    font-size:12px;
+}
+
+.item small{
+    display:block;
+    font-size:11px;
+    color:#999;
+}
+
+#busca{
+    width:300px;
+    padding:8px;
+    margin-bottom:20px;
+}
+
+.tabs{
+    margin-bottom:16px;
+}
+
+.tabs button{
+    background:#111;
+    border:1px solid #444;
+    color:#eee;
+    padding:10px 16px;
+    margin-right:8px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.tabs button.active{
+    border-color:#facc15;
+    color:#facc15;
+}
+
+.card-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:14px;
+}
+
+.card{
+    border:2px solid #333;
+    border-radius:12px;
+    padding:14px;
+    background:#111;
+    min-height:180px;
+    overflow:hidden;
+}
+
+.card h2{
+    margin:0 0 8px;
+    font-size:16px;
+}
+
+.card p,
+.card div,
+.card ul{
+    margin:6px 0;
+    font-size:13px;
+    color:#ccc;
+}
+
+.card strong{
+    color:#facc15;
+}
+
+.card ul{
+    padding-left:18px;
+}
+
+.card small{
+    display:block;
+    font-size:11px;
+    color:#999;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📚 Wiki de Itens</h1>
+
+<div class="tabs">
+    <button id="btnItems" class="active">Itens</button>
+    <button id="btnWiki">Wiki do Jogo</button>
+</div>
+
+<input
+    id="busca"
+    placeholder="Buscar item ou wiki..."
+>
+
+<div id="total"></div>
+<br>
+
+<div id="content" class="card-list"></div>
+
+<script type="module">
+
+import { getItemVisual } from "./js/item-icons.js";
+
+const resposta = await fetch("./assets/data/wiki.json");
+const rawData = await resposta.json();
+
+const wikiData = rawData.wiki || rawData;
+
+const tiposBloqueados = [
+  "pocao_hp",
+  "pocao_mn",
+  "consumivel",
+  "comida",
+  "fruta",
+  "erva"
+];
+
+const itens = Array.isArray(wikiData)
+  ? wikiData.filter(item => item.tipo && !tiposBloqueados.includes(String(item.tipo).toLowerCase()))
+  : [];
+
+const sections = [];
+
+function pushSection(key){
+    if (!wikiData[key]) return;
+    const value = wikiData[key];
+    if (Array.isArray(value)){
+        value.forEach((entry, index) => {
+            sections.push({
+                source: key,
+                index,
+                entry
+            });
+        });
+    }
+}
+
+["guiasGerais","combate","habilidades","buffsDebuffs","tier","monstros","mundo","classes","itens","economia","missoes","dicas_estrategia","eventos_especiais","glossario"].forEach(pushSection);
+
+const btnItems = document.getElementById("btnItems");
+const btnWiki = document.getElementById("btnWiki");
+const content = document.getElementById("content");
+const busca = document.getElementById("busca");
+const total = document.getElementById("total");
+
+let currentTab = itens.length ? "items" : "wiki";
+
+function summaryText(entry){
+    if (entry.titulo) return entry.titulo;
+    if (entry.nome) return entry.nome;
+    if (entry.termo) return entry.termo;
+    return (entry.id || entry.source || "Seção") + "";
+}
+
+function descriptionText(entry){
+    if (entry.descricao) return entry.descricao;
+    if (entry.categoria) return entry.categoria;
+    return "";
+}
+
+function renderDetails(entry){
+    const keys = Object.keys(entry).filter(key => !["id","titulo","descricao","categoria","nome","termo"].includes(key));
+    if (!keys.length) return "";
+    return keys.map(key => {
+        const value = entry[key];
+        if (Array.isArray(value)){
+            const items = value.map(item => {
+                if (typeof item === "object" && item !== null){
+                    const title = item.titulo || item.nome || item.termo || item.tipo || "Item";
+                    const desc = item.descricao ? `<small>${item.descricao}</small>` : "";
+                    return `<li><strong>${title}</strong>${desc}</li>`;
+                }
+                return `<li>${item}</li>`;
+            }).join("");
+            return `<div><strong>${key}:</strong><ul>${items}</ul></div>`;
+        }
+        if (typeof value === "object" && value !== null){
+            return `<div><strong>${key}:</strong> ${JSON.stringify(value)}</div>`;
+        }
+        return `<div><strong>${key}:</strong> ${value}</div>`;
+    }).join("");
+}
+
+function renderItems(list){
+    total.innerHTML = `<b>${list.length}</b> itens carregados`;
+    if (!list.length){
+        content.innerHTML = `<div class="card"><h2>Sem itens disponíveis</h2><p>Este arquivo não contém uma lista de itens padrão.</p></div>`;
+        return;
+    }
+    content.innerHTML = list.map(item => {
+        const visual = getItemVisual(item);
+        return `
+        <div class="card" style="border-color:${visual.borderColor}; background:${visual.background};">
+            <img src="${visual.image}" onerror="this.style.opacity=.2" width="48" height="48">
+            <h2>${item.nome || "Item"}</h2>
+            <small>${item.tipo || "Tipo desconhecido"}</small>
+            <small>${item.tier || "Tier desconhecido"}</small>
+            <small>${item.id || "ID desconhecido"}</small>
+        </div>`;
+    }).join("");
+}
+
+function renderWiki(list){
+    total.innerHTML = `<b>${list.length}</b> seções do wiki`;
+    if (!list.length){
+        content.innerHTML = `<div class="card"><h2>Wiki não encontrado</h2><p>Não há seções de wiki disponíveis neste arquivo.</p></div>`;
+        return;
+    }
+    content.innerHTML = list.map(item => {
+        const entry = item.entry;
+        return `
+        <div class="card">
+            <h2>${summaryText(entry)}</h2>
+            <p>${descriptionText(entry)}</p>
+            ${renderDetails(entry)}
+        </div>`;
+    }).join("");
+}
+
+function applyTab(tab){
+    currentTab = tab;
+    btnItems.classList.toggle("active", tab === "items");
+    btnWiki.classList.toggle("active", tab === "wiki");
+    busca.value = "";
+    if (tab === "items") renderItems(itens);
+    else renderWiki(sections);
+}
+
+btnItems.addEventListener("click", () => applyTab("items"));
+btnWiki.addEventListener("click", () => applyTab("wiki"));
+
+busca.addEventListener("input", () => {
+    const texto = busca.value.toLowerCase();
+    if (currentTab === "items"){
+        const filtrados = itens.filter(item =>
+            String(item.nome || "").toLowerCase().includes(texto) ||
+            String(item.tipo || "").toLowerCase().includes(texto) ||
+            String(item.tier || "").toLowerCase().includes(texto)
+        );
+        renderItems(filtrados);
+        return;
+    }
+    const filtrados = sections.filter(section => {
+        const entry = section.entry;
+        const text = JSON.stringify(entry).toLowerCase();
+        return text.includes(texto);
+    });
+    renderWiki(filtrados);
+});
+
+applyTab(currentTab);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eldrakar - Criar Personagem</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+<header>
+  <h1>🐉 Eldrakar</h1>
+  <p id="welcomeText">Criador de personagem</p>
+</header>
+
+<section id="introScreen" class="intro-screen">
+  <div class="intro-box">
+    <h1>🌌 O Chamado de Eldrakar</h1>
+
+    <p>
+      Você acorda em um vazio escuro.
+      Uma voz antiga ecoa dentro da sua alma:
+    </p>
+
+    <p class="intro-voice">
+      “Escolhido... seu mundo acabou para você.
+      Mas em Eldrakar, sua segunda vida começa agora.”
+    </p>
+
+    <button id="startCreationBtn" class="rainbow-btn">
+      ✨ Entrar no mundo
+    </button>
+  </div>
+</section>
+
+<main class="creator-layout">
+
+  <section class="card">
+    <h2>👤 Seu personagem</h2>
+
+    <label>Nome do personagem</label>
+    <input id="characterName" placeholder="Ex: Arkan, Lyra, Draven..." />
+    <div class="avatar-upload">
+  <img id="avatarPreview" src="./assets/monster/cavaleiro_r3_c3.png" class="avatar-preview">
+
+  <input type="file" id="avatarInput" accept="image/*" hidden>
+
+  <button type="button" id="avatarBtn">📷 Escolher imagem</button>
+</div>
+
+   
+
+    <h2>⚔️ Classe primária</h2>
+    <div id="classGrid" class="class-grid"></div>
+  </section>
+
+  <section class="card">
+    <h2>💪 Atributos</h2>
+    <p class="hint">
+      Você tem <strong id="pointsLeft">10</strong> pontos.
+    </p>
+
+    <div id="attributesBox"></div>
+
+    <h2>✨ Magia inicial</h2>
+    <p class="hint">Escolha uma habilidade inicial da classe.</p>
+
+    <div id="skillGrid" class="item-grid"></div>
+
+    <h2>🎁 Kit inicial</h2>
+    <p class="hint">
+      Bolsa pequena, poções HP, poções MN e 3 itens aleatórios baratos.
+    </p>
+  </section>
+
+  <section class="card preview-card">
+    <h2>📜 Prévia</h2>
+
+    <div id="previewBox" class="preview-box">
+      Escolha sua classe...
+    </div>
+
+    <button id="saveCharacterBtn">Salvar personagem</button>
+    <button id="continueBtn" class="secondary-btn">Entrar no mundo</button>
+    <button id="logoutBtn" class="danger-btn">Sair</button>
+
+    <p id="statusText" class="status"></p>
+  </section>
+
+</main>
+
+<script type="module" src="./js/background-music.js"></script>
+<script type="module" src="./js/lobby.js"></script>
+</body>
+</html>
