@@ -1,0 +1,1071 @@
+/* =====================================================
+   BATTLE HTML SYSTEM — ELDRAKAR
+   Tela cheia + visual RPG melhorado
+   ===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+body {
+  background:
+    radial-gradient(circle at center, rgba(60, 40, 10, .35), rgba(0, 0, 0, .98)),
+    #000;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =====================================================
+   PALCO DA BATALHA
+   ===================================================== */
+
+.battle-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 21;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 14px;
+  pointer-events: auto;
+}
+
+/* =====================================================
+   TABULEIRO PRINCIPAL
+   ===================================================== */
+
+.rpg-battle-board {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 22px;
+
+  /* Tornar painel transparente para remover caixa preta de fundo */
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Luz de fundo animada */
+.rpg-battle-board::before {
+  display: none; /* oculta camada de luz/overlay */
+}
+
+@keyframes boardGlow {
+  0%, 100% {
+    opacity: .45;
+  }
+
+  50% {
+    opacity: .85;
+  }
+}
+
+/* =====================================================
+   BANNER DO TERRENO
+   ===================================================== */
+
+.battle-terrain-banner {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  padding: 10px 16px;
+  margin-bottom: 12px;
+
+  color: #ffe082;
+
+  border: 1px solid rgba(212, 175, 55, .45);
+  border-radius: 18px;
+
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.60), rgba(45,25,8,.65), rgba(0,0,0,.60));
+
+  text-align: left;
+
+  box-shadow:
+    0 0 18px rgba(212,175,55,.12),
+    inset 0 0 20px rgba(0,0,0,.55);
+}
+
+.terrain-icon {
+  font-size: 34px;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 100, .6));
+}
+
+.battle-terrain-banner strong {
+  font-size: 18px;
+  color: #ffdd73;
+}
+
+.battle-terrain-banner small {
+  display: block;
+  color: #ddd;
+  margin-top: 2px;
+  font-size: 13px;
+}
+
+/* =====================================================
+   INFORMAÇÕES DO TOPO
+   ===================================================== */
+
+.battle-top-info {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+
+  color: #f7d66b;
+  font-size: 15px;
+
+  margin-bottom: 12px;
+
+  text-shadow: 0 0 10px #000;
+}
+
+.battle-top-info strong {
+  color: #fff0a8;
+}
+
+/* =====================================================
+   EVENTO DO TERRENO
+   ===================================================== */
+
+.terrain-event-message {
+  position: relative;
+  z-index: 3;
+
+  margin: 0 auto 10px;
+  padding: 10px 14px;
+
+  max-width: 760px;
+
+  border-radius: 14px;
+
+  color: #ffcc80;
+  background: rgba(0, 0, 0, .55);
+  border: 1px solid rgba(255, 170, 80, .45);
+
+  font-size: 14px;
+  text-align: center;
+}
+
+/* =====================================================
+   ÁREA DA BATALHA
+   ===================================================== */
+
+.battle-area {
+  position: relative;
+  z-index: 2;
+
+  flex: 1;
+
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 320px minmax(280px, 1fr);
+  gap: 36px;
+
+  align-items: center;
+
+  padding: 16px 34px 26px;
+}
+
+/* =====================================================
+   CARDS DOS COMBATENTES
+   ===================================================== */
+
+.combatant-card {
+  position: relative;
+
+  min-height: 440px;
+
+  padding: 26px 22px;
+
+  border-radius: 26px;
+  text-align: center;
+
+  background:
+    linear-gradient(180deg, rgba(45, 30, 15, .96), rgba(0, 0, 0, .98));
+
+  border: 2px solid rgba(212, 175, 55, .55);
+
+  box-shadow:
+    0 0 30px rgba(0,0,0,.85),
+    0 0 25px rgba(212,175,55,.12),
+    inset 0 0 26px rgba(212,175,55,.08);
+}
+
+.combatant-card::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+
+  border-radius: 20px;
+  border: 1px solid rgba(255, 230, 150, .12);
+
+  pointer-events: none;
+}
+
+.combatant-title {
+  color: #ffd76a;
+
+  font-size: clamp(24px, 2.2vw, 36px);
+  font-weight: 900;
+
+  margin-bottom: 18px;
+
+  text-shadow:
+    0 0 10px rgba(255, 215, 90, .45),
+    0 2px 0 #000;
+}
+
+.combatant-portrait {
+  width: clamp(180px, 20vw, 280px);
+  height: clamp(180px, 20vw, 280px);
+
+  margin: 0 auto 18px;
+  padding: 7px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle, rgba(60,60,60,.4), #050505 70%);
+}
+
+.combatant-portrait img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 50%;
+  display: block;
+}
+
+.gold-frame {
+  border: 4px solid #d4af37;
+
+  box-shadow:
+    0 0 25px rgba(212,175,55,.55),
+    inset 0 0 18px rgba(212,175,55,.25);
+}
+
+.red-frame {
+  border: 4px solid #b33131;
+
+  box-shadow:
+    0 0 28px rgba(255,45,45,.50),
+    inset 0 0 18px rgba(255,0,0,.18);
+}
+
+.boss-card .red-frame {
+  border-color: #ffcc33;
+
+  box-shadow:
+    0 0 32px rgba(255, 204, 51, .75),
+    0 0 52px rgba(255, 0, 0, .45);
+}
+
+/* =====================================================
+   HP
+   ===================================================== */
+
+.hp-text {
+  color: #eee;
+
+  margin-bottom: 8px;
+
+  font-size: 15px;
+  text-shadow: 0 0 8px #000;
+}
+
+.rpg-hp-bar {
+  width: 100%;
+  height: 20px;
+
+  border-radius: 999px;
+
+  background: rgba(0,0,0,.80);
+
+  border: 1px solid rgba(255,255,255,.25);
+
+  overflow: hidden;
+
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.9),
+    0 0 12px rgba(255,0,0,.15);
+}
+
+.rpg-hp-bar div {
+  height: 100%;
+
+  background:
+    linear-gradient(90deg, #7a0000, #ff3838, #ff7070);
+
+  border-radius: 999px;
+
+  transition: width .3s ease;
+
+  box-shadow:
+    0 0 12px rgba(255, 0, 0, .65);
+}
+
+/* =====================================================
+   EFFECTS / BUFFS & DEBUFFS VISUALS
+   ===================================================== */
+.effects-list {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.effect-badge {
+  display: inline-block;
+  padding: 6px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #111;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 2px 6px rgba(0,0,0,.6);
+}
+
+.effect-badge.buff {
+  background: linear-gradient(90deg,#d4ffb8,#b6ff8a);
+  color: #063;
+  border-color: rgba(30,120,30,.12);
+}
+
+.effect-badge.debuff {
+  background: linear-gradient(90deg,#ffd6d6,#ffb3b3);
+  color: #600;
+  border-color: rgba(120,30,30,.12);
+}
+
+.battle-debug-panel {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  z-index: 40;
+  display: flex;
+  gap: 8px;
+}
+
+.battle-debug-panel button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+/* Animação quando um efeito está para expirar (turns === 1) */
+.effect-badge.near-expire {
+  animation: effectJump .48s cubic-bezier(.2,.8,.2,1);
+  box-shadow: 0 6px 18px rgba(255,140,80,.28);
+}
+
+@keyframes effectJump {
+  0% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-12px) scale(1.12); }
+  70% { transform: translateY(4px) scale(1.04); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* Monster stats panel */
+.monster-stats {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,215,120,0.08);
+  color: #fff;
+  font-size: 13px;
+  text-align: left;
+}
+
+.monster-stats .stat-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.monster-stats .abilities-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.ability-pill {
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  font-size: 12px;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.ability-pill.active {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.5), 0 0 8px rgba(255,255,255,0.06) inset;
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(255,200,80,0.9);
+  background: linear-gradient(90deg, rgba(255,200,80,0.15), rgba(255,140,60,0.06));
+  animation: abilityPulse 900ms ease-in-out infinite;
+}
+
+@keyframes abilityPulse {
+  0% { box-shadow: 0 4px 10px rgba(255,200,80,0.06); }
+  50% { box-shadow: 0 8px 26px rgba(255,180,60,0.18); }
+  100% { box-shadow: 0 4px 10px rgba(255,200,80,0.06); }
+}
+
+/* Tier pill (badge) */
+.tier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0b0b0b;
+  background: #ddd;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.tier-pill.no-tier { background: linear-gradient(90deg,#444,#222); color:#fff; }
+.tier-pill.tier-t1 { background: linear-gradient(90deg,#f5f5f5,#e0e0e0); color:#111; }
+.tier-pill.tier-t2 { background: linear-gradient(90deg,#dff7e0,#bfeec0); color:#0b3; }
+.tier-pill.tier-t3 { background: linear-gradient(90deg,#fff1c6,#ffd880); color:#5a3800; }
+.tier-pill.tier-rare { background: linear-gradient(90deg,#cfe8ff,#9fd0ff); color:#012e5a; }
+.tier-pill.tier-epic { background: linear-gradient(90deg,#e7d0ff,#c7a0ff); color:#2a0044; }
+.tier-pill.tier-legendary { background: linear-gradient(90deg,#ffd6b0,#ffb36b); color:#4a2700; }
+
+/* =====================================================
+   CENTRO DA BATALHA
+   ===================================================== */
+
+.battle-center {
+  position: relative;
+  z-index: 3;
+
+  text-align: center;
+
+  padding: 24px 14px;
+
+  border-radius: 24px;
+
+  background:
+    radial-gradient(circle, rgba(30, 25, 20, .80), rgba(0,0,0,.55));
+
+  border: 1px solid rgba(212,175,55,.25);
+
+  box-shadow:
+    0 0 24px rgba(0,0,0,.75),
+    inset 0 0 24px rgba(255,255,255,.03);
+}
+
+.battle-dice {
+  font-size: clamp(58px, 6vw, 92px);
+
+  filter:
+    drop-shadow(0 0 18px rgba(255,255,255,.65))
+    drop-shadow(0 0 28px rgba(212,175,55,.25));
+}
+
+.battle-dice.rolling {
+  animation: battleDiceRoll .6s ease-in-out 4;
+}
+
+@keyframes battleDiceRoll {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: rotate(25deg) scale(1.18);
+  }
+
+  50% {
+    transform: rotate(-25deg) scale(.9);
+  }
+
+  75% {
+    transform: rotate(15deg) scale(1.1);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.dice-results {
+  display: grid;
+  gap: 7px;
+
+  margin-top: 14px;
+
+  color: #ddd;
+  font-size: 18px;
+}
+
+.dice-results strong {
+  color: #fff0a8;
+}
+
+.battle-turn-message {
+  margin-top: 24px;
+
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 900;
+
+  color: #ffd34d;
+
+  text-shadow:
+    0 0 12px rgba(212,175,55,.9),
+    0 0 28px rgba(255,0,0,.35),
+    0 3px 0 #000;
+
+  letter-spacing: 2px;
+
+  animation: battleMessagePop .35s ease-out;
+}
+
+@keyframes battleMessagePop {
+  from {
+    transform: scale(.75);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.battle-msg-hide {
+  opacity: .18;
+  transition: opacity .8s ease;
+}
+
+/* =====================================================
+   MENSAGENS FLUTUANTES
+   ===================================================== */
+
+.battle-floating-message {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  z-index: 10;
+
+  transform: translateX(-50%);
+
+  padding: 14px 22px;
+
+  border-radius: 18px;
+
+  color: #ffd34d;
+
+  background: rgba(0, 0, 0, .78);
+
+  border: 2px solid rgba(255, 211, 77, .75);
+
+  font-size: clamp(24px, 4vw, 44px);
+  font-weight: 900;
+
+  text-shadow: 0 0 18px rgba(255, 0, 0, .8);
+
+  animation: bossWarning 1.6s ease;
+}
+
+/* Efeito de expiração específico */
+.effect-expire-popup {
+  background: linear-gradient(90deg,#fff7e0,#ffe6e6);
+  color: #3a1a00;
+  border-color: rgba(255,160,120,.6);
+}
+
+@keyframes bossWarning {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(.6);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.08);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(.9);
+  }
+}
+
+/* Função visual 123456 — dano flutuante */
+.damage-popup,
+.popup-123456 {
+  position: absolute;
+  z-index: 20;
+
+  color: #ff4040;
+
+  font-size: 42px;
+  font-weight: 900;
+
+  pointer-events: none;
+
+  text-shadow:
+    0 0 12px rgba(255,0,0,.9),
+    0 3px 0 #000;
+
+  animation: damageUp123456 .85s forwards;
+}
+
+@keyframes damageUp123456 {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-90px) scale(1.25);
+  }
+}
+
+/* =====================================================
+   ANIMAÇÕES DE COMBATE
+   ===================================================== */
+
+.battle-player-attack {
+  animation: battlePlayerAttack .35s ease;
+}
+
+@keyframes battlePlayerAttack {
+  50% {
+    transform: translateX(70px) scale(1.08);
+  }
+}
+
+.battle-monster-hit {
+  animation: battleMonsterHit .35s ease;
+}
+
+@keyframes battleMonsterHit {
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 35px red);
+  }
+}
+
+.battle-dodge {
+  animation: battleDodge .35s ease;
+}
+
+@keyframes battleDodge {
+  50% {
+    transform: translateX(-55px);
+  }
+}
+
+.battle-heal {
+  animation: battleHeal .6s ease;
+}
+
+@keyframes battleHeal {
+  50% {
+    filter: drop-shadow(0 0 35px lime);
+    transform: scale(1.08);
+  }
+}
+
+.thinking-text {
+  color: #ffd76a;
+
+  font-size: 28px;
+  font-style: italic;
+
+  text-align: center;
+
+  animation: thinkingPulse 1.2s ease-in-out infinite;
+
+  text-shadow: 0 0 16px rgba(212,175,55,.7);
+}
+
+@keyframes thinkingPulse {
+  0%, 100% {
+    opacity: .45;
+    transform: scale(.98);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+/* =====================================================
+   TERRENOS
+   ===================================================== */
+
+.terrain-vulcao {
+  box-shadow:
+    0 0 75px rgba(255, 70, 0, .60),
+    inset 0 0 70px rgba(255, 70, 0, .12);
+
+  border-color: rgba(255, 100, 20, .85);
+}
+
+.terrain-vulcao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at 20% 90%, rgba(255, 70, 0, .25), transparent 28%),
+    radial-gradient(circle at 80% 20%, rgba(255, 150, 0, .16), transparent 30%);
+
+  pointer-events: none;
+
+  animation: lavaGlow 2s ease-in-out infinite;
+}
+
+@keyframes lavaGlow {
+  50% {
+    opacity: .55;
+  }
+}
+
+.terrain-gelo {
+  box-shadow:
+    0 0 75px rgba(80, 180, 255, .50),
+    inset 0 0 70px rgba(80, 180, 255, .10);
+
+  border-color: rgba(120, 220, 255, .80);
+}
+
+.terrain-pantano {
+  box-shadow:
+    0 0 75px rgba(70, 255, 120, .32),
+    inset 0 0 70px rgba(60, 120, 50, .16);
+
+  border-color: rgba(80, 180, 80, .70);
+}
+
+.terrain-floresta {
+  box-shadow:
+    0 0 75px rgba(40, 180, 80, .40),
+    inset 0 0 70px rgba(40, 180, 80, .10);
+
+  border-color: rgba(90, 210, 110, .65);
+}
+
+.terrain-caverna,
+.terrain-subsolo {
+  box-shadow:
+    0 0 75px rgba(80, 80, 120, .45),
+    inset 0 0 70px rgba(80, 80, 120, .12);
+
+  border-color: rgba(120, 120, 170, .65);
+}
+
+.terrain-cemiterio {
+  box-shadow:
+    0 0 75px rgba(160, 80, 255, .45),
+    inset 0 0 70px rgba(160, 80, 255, .12);
+
+  border-color: rgba(180, 90, 255, .75);
+}
+
+.terrain-castelo {
+  box-shadow:
+    0 0 75px rgba(200, 180, 120, .42),
+    inset 0 0 70px rgba(200, 180, 120, .10);
+}
+
+.terrain-templo {
+  box-shadow:
+    0 0 75px rgba(255, 220, 120, .45),
+    inset 0 0 70px rgba(255, 220, 120, .10);
+}
+
+.terrain-deserto {
+  box-shadow:
+    0 0 75px rgba(255, 190, 80, .42),
+    inset 0 0 70px rgba(255, 190, 80, .10);
+}
+
+.terrain-mar {
+  box-shadow:
+    0 0 75px rgba(70, 170, 255, .42),
+    inset 0 0 70px rgba(70, 170, 255, .10);
+}
+
+.terrain-montanha {
+  box-shadow:
+    0 0 75px rgba(150, 150, 150, .42),
+    inset 0 0 70px rgba(150, 150, 150, .10);
+}
+
+.terrain-selva {
+  box-shadow:
+    0 0 75px rgba(20, 200, 80, .42),
+    inset 0 0 70px rgba(20, 200, 80, .10);
+}
+
+.terrain-planicie {
+  box-shadow:
+    0 0 75px rgba(140, 220, 90, .34),
+    inset 0 0 70px rgba(140, 220, 90, .08);
+}
+
+.terrain-ruinas {
+  box-shadow:
+    0 0 75px rgba(180, 140, 100, .42),
+    inset 0 0 70px rgba(180, 140, 100, .10);
+}
+
+/* =====================================================
+   BOSS
+   ===================================================== */
+
+.boss-battle {
+  animation: bossAura 2.2s ease-in-out infinite;
+}
+
+@keyframes bossAura {
+  0%, 100% {
+    box-shadow:
+      0 0 60px rgba(255, 210, 70, .35),
+      0 0 45px rgba(0,0,0,.9);
+  }
+
+  50% {
+    box-shadow:
+      0 0 90px rgba(255, 40, 40, .55),
+      0 0 65px rgba(255, 210, 70, .35);
+  }
+}
+
+/* =====================================================
+   RESPONSIVO
+   ===================================================== */
+
+@media (max-width: 1050px) {
+  .battle-area {
+    grid-template-columns: 1fr 260px 1fr;
+    gap: 18px;
+    padding: 12px;
+  }
+
+  .combatant-card {
+    min-height: 390px;
+  }
+
+  .combatant-portrait {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 850px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .battle-stage {
+    position: relative;
+    min-height: 100vh;
+    height: auto;
+    padding: 10px;
+  }
+
+  .rpg-battle-board {
+    min-height: 100vh;
+    height: auto;
+    padding: 14px;
+  }
+
+  .battle-terrain-banner {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .battle-top-info {
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .battle-area {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 10px;
+  }
+
+  .combatant-card {
+    min-height: auto;
+  }
+
+  .combatant-portrait {
+    width: 140px;
+    height: 140px;
+  }
+
+  .battle-dice {
+    font-size: 54px;
+  }
+
+  .battle-turn-message {
+    font-size: 32px;
+  }
+}/* ===============================
+   BOTÕES DA BATALHA
+================================ */
+
+.battle-actions {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 70px;
+  z-index: 20;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+.battle-actions button,
+.battle-return-btn {
+  min-width: 105px;
+  padding: 10px 14px;
+
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, .75);
+
+  background:
+    linear-gradient(180deg, rgba(72, 45, 18, .96), rgba(18, 10, 4, .98));
+
+  color: #ffe49a;
+
+  font-size: 14px;
+  font-weight: 800;
+  font-family: Georgia, "Times New Roman", serif;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 12px rgba(0,0,0,.8),
+    inset 0 0 10px rgba(255,220,120,.12);
+
+  text-shadow: 0 1px 2px #000;
+}
+
+.battle-actions button:hover,
+.battle-return-btn:hover {
+  transform: translateY(-2px);
+  background:
+    linear-gradient(180deg, rgba(120, 75, 25, .98), rgba(30, 15, 5, .98));
+  box-shadow:
+    0 0 18px rgba(212,175,55,.45),
+    inset 0 0 12px rgba(255,220,120,.18);
+}
+
+.battle-actions button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* LOG EMBAIXO */
+
+.battle-log {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 12px;
+  z-index: 18;
+
+  height: 48px;
+  padding: 8px 12px;
+
+  overflow-y: auto;
+
+  border-radius: 12px;
+  border: 1px solid rgba(212,175,55,.35);
+
+  background: rgba(0,0,0,.62);
+
+  color: #f7e7b0;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+/* BOTÃO VOLTAR AO MUNDO */
+
+.battle-return-btn {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 30;
+
+  display: block !important;
+  min-width: 150px;
+}.dice-results {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  color: #ddd;
+  font-size: 15px;
+  text-align: left;
+}
+
+.dice-results span {
+  background: rgba(0,0,0,.35);
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(212,175,55,.22);
+}

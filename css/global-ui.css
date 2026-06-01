@@ -1,0 +1,890 @@
+#eld-global-ui {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #f5f5f5;
+}
+
+.hidden,
+.eld-quick-hidden {
+  display: none !important;
+}
+
+.eld-top-hud,
+.eld-quick-panel,
+.eld-action-bar,
+.eld-drawer,
+.eld-toast-box,
+.eld-monster-box {
+  pointer-events: auto;
+}
+
+/* HUD */
+
+.eld-top-hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: 140px 1fr 360px 96px;
+  gap: 10px;
+  align-items: center;
+  background: rgba(0,0,0,.78);
+  border-bottom: 1px solid rgba(212,175,55,.45);
+  box-sizing: border-box;
+}
+
+.eld-player-card {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.eld-player-card strong {
+  font-size: 16px;
+}
+
+.eld-player-card span {
+  font-size: 11px;
+  opacity: .75;
+}
+
+.eld-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.eld-bar-line {
+  display: grid;
+  grid-template-columns: 42px 1fr 70px;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+}
+
+.eld-bar-bg {
+  height: 11px;
+  background: rgba(255,255,255,.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.eld-hp-fill,
+.eld-mana-fill,
+.eld-xp-fill {
+  height: 100%;
+  width: 0%;
+}
+
+.eld-hp-fill { background: #c42828; }
+.eld-mana-fill { background: #2f61df; }
+.eld-xp-fill { background: #d4af37; }
+
+.eld-stats-mini {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.eld-hud-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.eld-market-btn,
+.eld-settings-btn,
+.eld-menu-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,175,55,.55);
+  background: rgba(0,0,0,.7);
+  color: #f1c84b;
+  font-size: 20px;
+}
+
+/* MENU LATERAL */
+
+.eld-quick-panel {
+  position: fixed;
+  top: 96px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eld-quick-panel button {
+  width: 142px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.75);
+  color: white;
+  font-size: 13px;
+  text-align: left;
+}
+
+/* DRAWER */
+
+.eld-drawer {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 82vw;
+  height: 78vh;
+  max-width: 1050px;
+  background: rgba(10,10,10,.96);
+  border: 1px solid rgba(212,175,55,.55);
+  border-radius: 16px;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.eld-drawer-head {
+  height: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.eld-drawer-head button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,.12);
+  color: white;
+}
+
+.eld-drawer-content {
+  padding: 12px;
+  height: calc(78vh - 44px);
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+/* CARDS */
+
+.eld-card {
+  padding: 12px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
+}
+
+.eld-card h3 {
+  margin: 0 0 8px;
+}
+
+.eld-card p {
+  margin: 0 0 8px;
+}
+
+/* INVENTÁRIO */
+
+.eld-inventory-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.eld-equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 76px);
+  gap: 10px;
+}
+
+.eld-bag-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 66px);
+  gap: 8px;
+}
+
+.eld-equip-slot,
+.eld-bag-slot {
+  width: 66px;
+  height: 66px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.eld-equip-slot {
+  width: 76px;
+  height: 76px;
+}
+
+.eld-item-img,
+.eld-equip-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.eld-bag-slot.empty {
+  opacity: .35;
+}
+
+/* MONSTRO */
+
+.eld-monster-box {
+  position: fixed;
+  top: 96px;
+  left: 12px;
+  width: 220px;
+  padding: 10px;
+  background: rgba(0,0,0,.82);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  z-index: 10000;
+}
+
+.eld-monster-box.hidden {
+  display: none !important;
+}
+
+.eld-monster-box strong,
+.eld-monster-box small,
+.eld-monster-box span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* ACTION BAR */
+
+.eld-action-bar {
+  position: fixed;
+  left:50%;
+  bottom: 80px;
+  transform: translateX(-50%);
+  height: 70px;
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  background: rgba(0,0,0,.82);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+}
+
+.eld-action-bar button {
+  width: 76px;
+  height: 54px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.eld-action-bar button span {
+  font-size: 13px;
+}
+
+/* CHAT / TOAST */
+
+.eld-toast-box {
+  position: fixed;
+  left: 50%;
+  bottom: 105px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.eld-toast {
+  padding: 12px 16px;
+  background: rgba(0,0,0,.92);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0,0,0,.35);
+  max-width: min(90vw, 340px);
+  text-align: center;
+  font-weight: 600;
+}
+
+.eld-toast.eld-toast-important {
+  background: rgba(212,175,53,.98);
+  border-color: rgba(255,255,255,.35);
+  color: #111;
+  box-shadow: 0 0 28px rgba(212,175,53,.45);
+}
+
+.eld-toast.eld-toast-success {
+  background: rgba(56,142,60,.95);
+  border-color: rgba(255,255,255,.18);
+  color: #f7f7f7;
+}
+
+.eld-chat-messages {
+  height: 220px;
+  overflow-y: auto;
+}
+
+.eld-chat-input {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.eld-chat-input input {
+  flex: 1;
+  padding: 10px;
+  background: #111;
+  color: white;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+}
+
+.eld-market-item-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.eld-market-item-row:last-child {
+  border-bottom: none;
+}
+
+.eld-market-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eld-market-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.eld-market-item-info small {
+  display: block;
+  opacity: .75;
+  font-size: 12px;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  .eld-top-hud {
+    grid-template-columns: 110px 1fr 48px;
+    height: 90px;
+  }
+
+  .eld-stats-mini {
+    display: none;
+  }
+
+  .eld-drawer {
+    width: 96vw;
+    height: 84vh;
+  }
+
+  .eld-bag-grid {
+    grid-template-columns: repeat(4, 62px);
+  }
+}
+
+.eld-character-doll {
+  width: 76px;
+  height: 76px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.05);
+  border: 1px dashed rgba(255,255,255,.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  opacity: .75;
+}.eld-trash-zone {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px dashed rgba(255,80,80,.6);
+  border-radius: 12px;
+  text-align: center;
+  color: #ff8a8a;
+  background: rgba(80,0,0,.25);
+}
+
+.eld-trash-zone.drag-over {
+  background: rgba(180,0,0,.45);
+  border-color: #ff4444;
+}
+.eld-equip-slot.drag-over {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 10px rgba(212,175,55,.8);
+}#eldItemMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.45);
+}
+
+.eld-item-menu-box {
+  width: 260px;
+  background: #111;
+  border: 1px solid #c89b3c;
+  border-radius: 12px;
+  padding: 12px;
+  color: #fff;
+  box-shadow: 0 0 20px #000;
+}
+
+.eld-item-menu-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.eld-item-menu-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.eld-item-menu-actions button {
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* CONFIGURAÇÕES */
+.eld-settings-btn {
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.eld-settings-btn:hover {
+  transform: rotate(24deg) scale(1.05);
+  filter: brightness(1.15);
+}
+
+.eld-settings-card {
+  display: grid;
+  gap: 12px;
+}
+
+.eld-setting-row,
+.eld-toggle-row {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid rgba(212,175,55,.25);
+  border-radius: 12px;
+  background: rgba(0,0,0,.22);
+}
+
+.eld-toggle-row {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.eld-setting-row span,
+.eld-toggle-row span {
+  color: #f1d48a;
+  font-weight: 700;
+}
+
+.eld-setting-row strong {
+  color: #fff2c2;
+  font-size: 13px;
+}
+
+.eld-setting-row input[type="range"] {
+  width: 100%;
+}
+
+.eld-setting-row select {
+  width: 100%;
+  padding: 9px;
+  border-radius: 10px;
+  border: 1px solid rgba(212,175,55,.35);
+  background: rgba(0,0,0,.72);
+  color: #ffe8ad;
+}
+
+.eld-settings-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.eld-settings-actions button {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(212,175,55,.5);
+  background: linear-gradient(180deg, rgba(70,42,18,.95), rgba(20,12,8,.98));
+  color: #ffe8ad;
+  font-weight: 800;
+}
+
+body.eld-no-effects .battle-dice,
+body.eld-no-effects .battle-floating-message,
+body.eld-no-effects .thinking-text {
+  animation: none !important;
+  filter: none !important;
+}
+
+body.eld-quality-low .rain-drop,
+body.eld-quality-low .cinematic-particle,
+body.eld-no-rain .rain-drop,
+body.eld-no-rain .rain-particle {
+  display: none !important;
+}
+
+/* =========================================================
+   HUD GLOBAL REFEITA - COMPACTA / RPG / DIA E CLIMA
+   Colei no final para sobrescrever sem quebrar o sistema antigo.
+========================================================= */
+
+.eld-top-hud {
+  position: fixed !important;
+  top: 6px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 16px) !important;
+  max-width: 1180px !important;
+  min-height: 58px !important;
+  height: auto !important;
+  padding: 6px 10px !important;
+  display: grid !important;
+  grid-template-columns: 170px minmax(220px, 520px) minmax(130px, auto) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  border: 1px solid rgba(212, 175, 55, 0.36) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(180deg, rgba(12, 10, 8, .86), rgba(0, 0, 0, .64)) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45), inset 0 0 18px rgba(212, 175, 55, .08) !important;
+  backdrop-filter: blur(5px) !important;
+  z-index: 9990 !important;
+  box-sizing: border-box !important;
+}
+
+.eld-player-card {
+  display: grid !important;
+  grid-template-columns: 44px 1fr !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  color: #ffe8ad !important;
+}
+
+.eld-player-avatar {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border: 2px solid #c89b3c !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, .65) !important;
+  background: #080604 !important;
+}
+
+.eld-player-text {
+  min-width: 0 !important;
+  display: grid !important;
+  gap: 2px !important;
+}
+
+#eldPlayerName {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  color: #ffe8ad !important;
+  text-shadow: 0 1px 2px #000 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#eldPlayerClass {
+  font-size: 10px !important;
+  line-height: 1.1 !important;
+  opacity: .78 !important;
+  color: #ddd !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.eld-bars {
+  width: 100% !important;
+  max-width: 520px !important;
+  display: grid !important;
+  gap: 4px !important;
+}
+
+.eld-bar-line {
+  display: grid !important;
+  grid-template-columns: 34px minmax(120px, 1fr) 58px !important;
+  align-items: center !important;
+  gap: 6px !important;
+  min-height: 12px !important;
+  font-size: 10px !important;
+}
+
+.eld-bar-line small,
+.eld-bar-line b {
+  font-size: 9px !important;
+  line-height: 1 !important;
+  color: #eee !important;
+  text-shadow: 0 1px 2px #000 !important;
+}
+
+.eld-bar-bg {
+  height: 6px !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+  background: rgba(255, 255, 255, .10) !important;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, .7) !important;
+}
+
+.eld-world-info {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 3px !important;
+  justify-content: end !important;
+  align-items: center !important;
+  min-width: 128px !important;
+  padding: 5px 8px !important;
+  border: 1px solid rgba(212, 175, 55, .24) !important;
+  border-radius: 12px !important;
+  background: rgba(0, 0, 0, .26) !important;
+  font-size: 11px !important;
+  color: #ffe8ad !important;
+  text-shadow: 0 1px 2px #000 !important;
+}
+
+.eld-world-info span {
+  white-space: nowrap !important;
+}
+
+.eld-world-gold {
+  color: #ffd76b !important;
+  font-weight: 800 !important;
+}
+
+.eld-hud-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+}
+
+.eld-hud-actions button,
+.eld-market-btn,
+.eld-settings-btn,
+.eld-menu-btn {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 16px !important;
+  border: 1px solid rgba(212, 175, 55, .55) !important;
+  background: radial-gradient(circle at 50% 20%, rgba(75, 51, 22, .95), rgba(7, 5, 4, .96)) !important;
+  color: #ffe8ad !important;
+  box-shadow: 0 0 10px rgba(0,0,0,.55) !important;
+}
+
+.eld-quick-panel {
+  top: 74px !important;
+  right: 8px !important;
+  z-index: 9980 !important;
+}
+
+.eld-quick-panel button {
+  min-height: 28px !important;
+  padding: 5px 9px !important;
+  font-size: 11px !important;
+  border-radius: 10px !important;
+}
+
+.eld-avatar-settings-card {
+  border-color: rgba(212, 175, 55, .35) !important;
+}
+
+.eld-avatar-settings-preview {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+.eld-avatar-settings-preview img {
+  width: 68px !important;
+  height: 68px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #c89b3c !important;
+  background: #080604 !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, .5) !important;
+}
+
+#eldAvatarBtn {
+  flex: 1 !important;
+  min-width: 180px !important;
+  padding: 10px 12px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(212,175,55,.5) !important;
+  background: linear-gradient(180deg, rgba(70,42,18,.95), rgba(20,12,8,.98)) !important;
+  color: #ffe8ad !important;
+  font-weight: 800 !important;
+}
+
+@media (max-width: 760px) {
+  .eld-top-hud {
+    top: 4px !important;
+    width: calc(100% - 8px) !important;
+    grid-template-columns: 136px 1fr auto !important;
+    grid-template-areas:
+      "player bars actions"
+      "world world world" !important;
+    gap: 6px !important;
+    padding: 5px 7px !important;
+  }
+
+  .eld-player-card { grid-area: player !important; grid-template-columns: 38px 1fr !important; }
+  .eld-bars { grid-area: bars !important; max-width: none !important; }
+  .eld-hud-actions { grid-area: actions !important; }
+  .eld-world-info {
+    grid-area: world !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+    font-size: 10px !important;
+    padding: 3px 6px !important;
+  }
+
+  .eld-player-avatar {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  #eldPlayerName { font-size: 12px !important; }
+  #eldPlayerClass { font-size: 9px !important; }
+
+  .eld-bar-line {
+    grid-template-columns: 28px 1fr 44px !important;
+    gap: 4px !important;
+  }
+
+  .eld-bar-line small,
+  .eld-bar-line b {
+    font-size: 8px !important;
+  }
+
+  .eld-hud-actions button,
+  .eld-market-btn,
+  .eld-settings-btn,
+  .eld-menu-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 15px !important;
+  }
+
+  .eld-quick-panel {
+    top: 88px !important;
+  }
+}.eld-quick-panel {
+  display: grid !important;
+  grid-template-columns: repeat(2, 42px) !important;
+  gap: 6px !important;
+  width: auto !important;
+  padding: 6px !important;
+  background: rgba(0,0,0,.65) !important;
+  border: 1px solid #8b6b24 !important;
+  border-radius: 14px !important;
+}
+
+.eld-quick-panel button {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  border-radius: 10px !important;
+}
+
+.eld-quick-panel button::first-letter {
+  font-size: 18px !important;
+}
+#eldQuickPanel.hidden,
+#eldQuickPanel.eld-quick-hidden {
+  display: none !important;
+}.battle-log {
+  bottom: 14px;
+  height: 42px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.battle-log::-webkit-scrollbar {
+  width: 6px;
+}
+
+.battle-log::-webkit-scrollbar-thumb {
+  background: rgba(212,175,55,.65);
+  border-radius: 10px;
+}
+
+.battle-actions {
+  bottom: 66px;
+}
+
+.dice-results span {
+  min-height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+.battle-return-btn {
+  top: 18px;
+  right: 18px;
+}

@@ -1,0 +1,1 @@
+js/game-brain/monster-avatar.js
