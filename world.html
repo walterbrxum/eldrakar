@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eldrakar</title>
+
+  <link rel="stylesheet" href="./css/global-ui.css">
+  <link rel="stylesheet" href="./css/prologue.css">
+</head>
+
+<body>
+
+ <div id="sceneBackground"></div>
+<div id="cinematicLayer"></div>
+<div id="battleStage" class="battle-stage hidden">
+ 
+  <div id="playerIcon" class="battle-icon player-icon">🧍</div>
+
+  <div id="diceIcon" class="dice-icon hidden">🎲</div>
+
+  <div id="battleMessage" class="battle-message hidden"></div>
+
+  <div id="monsterIcon" class="battle-icon monster-icon">🐺</div>
+</div>
+</div>
+
+  <div class="game-layout">
+
+    <main class="story-container">
+      <div id="storyText" class="story-text"></div>
+    </main>
+
+    <footer class="bottom-ui">
+      <div class="chat-mestre-area">
+        <input
+          type="text"
+          id="playerInput"
+          placeholder="Pergunte algo ao Mestre sobre Eldrakar..."
+          autocomplete="off"
+        >
+
+        <button id="sendBtn">Perguntar 🔮</button>
+      
+    </footer>
+
+  </div>
+
+
+<script type="module" src="./js/background-music.js"></script>
+<script type="module" src="./js/prologue.js"></script>
+<script type="module" src="./js/admin-test.js"></script>
+<script type="module" src="./js/global-ui.js"></script>
+
+</body>
+</html>
